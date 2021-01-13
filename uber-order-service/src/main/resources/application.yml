@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: uber-order-service
+  profiles:
+    active: dev
+server:
+  port: 8080
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        enabled: false
+---
+spring:
+  profiles: win
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: http://localhost:8848
+        username: nacos
+        password: naocs
+        namespace: public
+---
+spring:
+  profiles: prod
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: ${nacos_host}
+        username: nacos
+        password: ${nacos_password}
+        namespace: public

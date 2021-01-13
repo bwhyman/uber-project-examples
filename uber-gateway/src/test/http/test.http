@@ -1,0 +1,13 @@
+GET localhost/api/user
+
+
+###
+GET localhost/order-api/order
+
+
+###
+GET localhost/api/order
+
+
+###
+GET localhost/api/order2

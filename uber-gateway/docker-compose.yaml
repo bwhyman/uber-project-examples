@@ -1,0 +1,17 @@
+version: '3'
+services:
+  gateway:
+    image: openjdk:11
+    ports:
+    - 80:80
+    environment:
+      - nacos_host=http://nacos:8848
+      - nacos_password=a123456a
+    volumes:
+    - ./:/home/gatway
+    command: java -jar /home/gatway/uber-gateway-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+
+networks:
+  default:
+    external:
+      name: uber_default

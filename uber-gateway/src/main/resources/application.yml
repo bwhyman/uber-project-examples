@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: uber-gateway
+  profiles:
+    active: win
+server:
+  port: 80
+
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        enabled: false
+    gateway:
+      routes:
+        - id: uber-order-service
+          predicates:
+            - Path=/order-api/**
+          uri: http://localhost:8080
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/api/
+
+uber-order-service: http://localhost:8080/api/
+---
+spring:
+  profiles: win
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: http://localhost:8848
+        username: nacos
+        password: naocs
+        namespace: public
+    gateway:
+      routes:
+        - id: uber-order-service
+          predicates:
+            - Path=/order-api/**
+          uri: lb://uber-order-service
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/api/
+
+uber-order-service: http://uber-order-service/api/
+---
+spring:
+  profiles: prod
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: ${nacos_host}
+        username: nacos
+        password: ${nacos_password}
+        namespace: public
+    gateway:
+      routes:
+        - id: uber-order-service
+          predicates:
+            - Path=/order-api/**
+          uri: lb://uber-order-service
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/api/
+
+uber-order-service: http://uber-order-service/api/
