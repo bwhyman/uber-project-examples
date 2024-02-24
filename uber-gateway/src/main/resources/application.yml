@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: uber-gateway
+  cloud:
+    nacos:
+      discovery:
+        namespace: public
+        server-addr: http://192.168.1.31:8848
+    gateway:
+      routes:
+        - id: uber-order-service # 路由规则唯一名称
+          predicates: # 路由断言
+            - Path=/order-api/** # 匹配的请求前缀
+          uri: lb://uber-order-service # 转发地址
+          filters:
+            - StripPrefix=1 # 转发时替换路径前缀
+            - PrefixPath=/api/ # 替换的真实路径前缀
+
+server:
+  port: 8082 # 避免与order服务冲突
+
+logging:
+  level:
+    root: info
+    com:
+      example: debug
+  pattern:
+    console: '%-5level %C.%M[%line] - %msg%n'

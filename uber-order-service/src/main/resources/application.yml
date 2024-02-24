@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: uber-order-service
+  cloud:
+    nacos:
+      server-addr: http://192.168.1.31:8848
+      discovery:
+        namespace: public
+
+logging:
+  level:
+    root: info
+    com:
+      example: debug
+  pattern:
+    console: '%-5level %C.%M[%line] - %msg%n'
