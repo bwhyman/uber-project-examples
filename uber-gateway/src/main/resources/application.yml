@@ -5,11 +5,11 @@ spring:
     nacos:
       discovery:
         namespace: public
-        server-addr: http://192.168.1.31:8848
+        server-addr: http://localhost:8848
     gateway:
       routes:
         - id: uber-order-service # 路由规则唯一名称
-          predicates: # 路由断言
+          predicates: # 路由谓词
             - Path=/order-api/** # 匹配的请求前缀
           uri: lb://uber-order-service # 转发地址
           filters:
