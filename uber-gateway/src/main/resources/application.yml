@@ -8,16 +8,31 @@ spring:
         server-addr: http://localhost:8848
     gateway:
       routes:
-        - id: uber-order-service # 路由规则唯一名称
-          predicates: # 路由谓词
-            - Path=/order-api/** # 匹配的请求前缀
-          uri: lb://uber-order-service # 转发地址
+        - id: order-service # 路由规则唯一名称
+          predicates: # 路由断言
+            - Path=/api/order/** # 匹配的请求前缀
+          uri: lb://order-service # 转发地址
           filters:
-            - StripPrefix=1 # 转发时替换路径前缀
-            - PrefixPath=/api/ # 替换的真实路径前缀
+            - StripPrefix=2 # 路由时替换2个路径前缀
+            - PrefixPath=/api/ # 替换的路径前缀
+        - id: user-service
+          predicates:
+            - Path=/api/user/**
+          uri: lb://user-service
+          filters:
+            - StripPrefix=2
+            - PrefixPath=/api/
+  jackson:
+    default-property-inclusion: non_null
+
+api:
+  user-service-url: lb://user-service/api/
+
+xproperty:
+  secretkey: R28K42ZEJ8LWRHU5
 
 server:
-  port: 8082 # 避免与order服务冲突
+  port: 8080 # 避免服务冲突
 
 logging:
   level:
@@ -26,3 +41,4 @@ logging:
       example: debug
   pattern:
     console: '%-5level %C.%M[%line] - %msg%n'
+

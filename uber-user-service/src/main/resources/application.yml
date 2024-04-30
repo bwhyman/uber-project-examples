@@ -1,13 +1,13 @@
 spring:
   application:
-    name: order-service
+    name: user-service
   cloud:
     nacos:
       server-addr: http://localhost:8848
       discovery:
         namespace: public
 server:
-  port: 8081 # 避免服务冲突
+  port: 8082 # 避免服务冲突
 
 logging:
   level:

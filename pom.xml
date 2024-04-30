@@ -11,5 +11,6 @@
     <modules>
         <module>uber-gateway</module>
         <module>uber-order-service</module>
+        <module>uber-user-service</module>
     </modules>
 </project>
